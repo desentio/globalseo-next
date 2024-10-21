@@ -1,3 +1,4 @@
+import React from "react";
 import GlobalSeoStyle from './style'
 
 export default function GlobalSeoSelector({ color = "#000" }) {

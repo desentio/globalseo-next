@@ -1,3 +1,4 @@
+import React from "react";
 import Script from "next/script";
 
 // CORE ATTRIBUTES
@@ -29,7 +30,7 @@ const DATA_TRANSLATE_SELECT_OPTIONS = "data-translate-select-options"
 const DATA_DOMAIN_SOURCE_PREFIX = "data-domain-source-prefix"
 const DATA_TRANSLATION_CACHE = "data-translation-cache";
 
-export default function GlobalSeoScript({
+export default async function GlobalSeoScript({
   apiKey,
   originalLanguage,
   allowedLanguages,
