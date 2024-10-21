@@ -30,6 +30,32 @@ const DATA_TRANSLATE_SELECT_OPTIONS = "data-translate-select-options"
 const DATA_DOMAIN_SOURCE_PREFIX = "data-domain-source-prefix"
 const DATA_TRANSLATION_CACHE = "data-translation-cache";
 
+interface GlobalSeoScriptProps {
+  apiKey: string;
+  originalLanguage: string;
+  allowedLanguages: string;
+  
+  useBrowserLanguage?: string;
+  excludeClasses?: string;
+  excludeIds?: string;
+  replaceLinks?: string;
+  autoCreateSelector?: string;
+  delay?: string;
+  dynamicTranslation?: string;
+  translateAttributes?: string;
+
+  translationMode?: string;
+  langParameter?: string;
+  customLanguageCode?: string;
+  mergeInline?: string;
+  excludeContents?: string;
+  debounce?: string;
+  translateFormPlaceholder?: string;
+  translateSelectOptions?: string;
+  domainSourcePrefix?: string;
+  translationCache?: string;
+}
+
 export default async function GlobalSeoScript({
   apiKey,
   originalLanguage,
@@ -54,7 +80,7 @@ export default async function GlobalSeoScript({
   translateSelectOptions,
   domainSourcePrefix,
   translationCache,
-}) {
+} : GlobalSeoScriptProps) {
 
   const dataAttributes = {
     [DATA_API_KEY]: apiKey,

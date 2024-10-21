@@ -1,7 +1,11 @@
 import React from "react";
 import GlobalSeoStyle from './style'
 
-export default function GlobalSeoSelector({ color = "#000" }) {
+interface GlobalSeoSelectorProps {
+  color?: string;
+}
+
+export default function GlobalSeoSelector({ color = "#000" }: GlobalSeoSelectorProps) {
   return (
     <>
       <GlobalSeoStyle />
