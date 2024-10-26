@@ -2,6 +2,12 @@
 
 Globalseo is a translation service that allows you to translate your website into multiple languages with low effort (powered by AI). This package provides a simple way to integrate [Globalseo](https://app.globalseo.ai) with your Next.js website.
 
+## Installation
+
+```
+npm i globalseo-next --save
+```
+
 ## Integration with subdomains (Recommended, better for SEO)
 For SEO purposes, it is recommended to use subdomains because our subdomain server will translate the page and return the html to the client. This way, the search engine will see the translated content without executing javascript.
 
