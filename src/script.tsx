@@ -69,7 +69,7 @@ interface GlobalSeoScriptWithSubdomainProps extends BaseGlobalSeoScriptProps {
 interface GlobalSeoScriptWithDomainProps extends BaseGlobalSeoScriptProps {
   translationMode: 'domain';
   originalDomain?: string;
-  translatedDomains?: string;
+  translatedDomains?: string | string[];
 }
 
 interface GlobalSeoScriptWithSearchParamsProps extends BaseGlobalSeoScriptProps {
@@ -135,7 +135,8 @@ export default async function GlobalSeoScript({
 
     if (translationMode === 'domain') {
       dataAttributes[DATA_ORIGINAL_DOMAIN] = (props as GlobalSeoScriptWithDomainProps).originalDomain;
-      dataAttributes[DATA_TRANSLATED_DOMAINS] = (props as GlobalSeoScriptWithDomainProps).translatedDomains;
+      const translatedDomains = (props as GlobalSeoScriptWithDomainProps).translatedDomains;
+      dataAttributes[DATA_TRANSLATED_DOMAINS] = typeof translatedDomains === 'string' ? translatedDomains : translatedDomains?.join(', ');
     }
   }
 
