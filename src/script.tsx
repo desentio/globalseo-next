@@ -31,6 +31,10 @@ const DATA_TRANSLATE_SELECT_OPTIONS = "data-translate-select-options"
 const DATA_DOMAIN_SOURCE_PREFIX = "data-domain-source-prefix"
 const DATA_TRANSLATION_CACHE = "data-translation-cache";
 
+// DOMAIN OPTIONAL ATTRIBUTES
+const DATA_ORIGINAL_DOMAIN = "data-original-domain";
+const DATA_TRANSLATED_DOMAINS = "data-translated-domains";
+
 interface BaseGlobalSeoScriptProps {
   apiKey: string;
   originalLanguage: string;
@@ -62,6 +66,12 @@ interface GlobalSeoScriptWithSubdomainProps extends BaseGlobalSeoScriptProps {
   customLinks?: Record<string, Partial<Record<LanguageEnum, string>>>;
 }
 
+interface GlobalSeoScriptWithDomainProps extends BaseGlobalSeoScriptProps {
+  translationMode: 'domain';
+  originalDomain?: string;
+  translatedDomains?: string;
+}
+
 interface GlobalSeoScriptWithSearchParamsProps extends BaseGlobalSeoScriptProps {
   translationMode: 'client_side_only';
 }
@@ -91,7 +101,7 @@ export default async function GlobalSeoScript({
   translationCache,
 
   ...props
-} : GlobalSeoScriptWithSearchParamsProps | GlobalSeoScriptWithSubdomainProps) {
+} : GlobalSeoScriptWithSearchParamsProps | GlobalSeoScriptWithSubdomainProps | GlobalSeoScriptWithDomainProps) {
 
   const dataAttributes: Record<string, string | undefined> = {
     [DATA_API_KEY]: apiKey,
@@ -115,10 +125,18 @@ export default async function GlobalSeoScript({
     [DATA_TRANSLATION_CACHE]: translationCache,
   }
 
-  // if translationMode is subdomain, we need to add the data-translation-mode, otherwise we don't need it because it's actually "searchParams" in the globalseo npm package, not "client_side_only".
+  // if translationMode is subdomain or domain, we need to add the data-translation-mode, otherwise we don't need it because it's actually "searchParams" in the globalseo npm package, not "client_side_only".
   if (translationMode != 'client_side_only') {
     dataAttributes[DATA_TRANSLATION_MODE] = translationMode;
-    dataAttributes[DATA_DOMAIN_SOURCE_PREFIX] = (props as GlobalSeoScriptWithSubdomainProps).domainSourcePrefix;
+
+    if (translationMode === 'subdomain') {
+      dataAttributes[DATA_DOMAIN_SOURCE_PREFIX] = (props as GlobalSeoScriptWithSubdomainProps).domainSourcePrefix;
+    }
+
+    if (translationMode === 'domain') {
+      dataAttributes[DATA_ORIGINAL_DOMAIN] = (props as GlobalSeoScriptWithDomainProps).originalDomain;
+      dataAttributes[DATA_TRANSLATED_DOMAINS] = (props as GlobalSeoScriptWithDomainProps).translatedDomains;
+    }
   }
 
   const customLinks = (props as GlobalSeoScriptWithSubdomainProps).customLinks;
@@ -154,7 +172,7 @@ export default async function GlobalSeoScript({
   // the div with id="globalseo-settings" is helpful to speedup the translation process
   return (
     <>
-      {translationMode == "subdomain" && <div id="globalseo-settings" {...dataAttributes}></div>}
+      {(translationMode == "subdomain" || translationMode == "domain") && <div id="globalseo-settings" {...dataAttributes}></div>}
       <Script
         src="https://unpkg.com/globalseo/dist/translate.js"
         {...dataAttributes}
