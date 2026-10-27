@@ -175,7 +175,9 @@ export default async function GlobalSeoScript({
     <>
       {(translationMode == "subdomain" || translationMode == "domain") && <div id="globalseo-settings" {...dataAttributes}></div>}
       <Script
-        src="https://unpkg.com/globalseo/dist/translate.js"
+        src="https://unpkg.com/globalseo@2.2.67/dist/translate.js"
+        integrity="sha384-0jfYQ4JQAbtYqL2zzxEKFLQuPRd3KqLcBPbNrRsNPtBwrka7ynVctkur5kOzCrxS"
+        crossOrigin="anonymous"
         {...dataAttributes}
       ></Script>
     </>
